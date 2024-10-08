@@ -1,0 +1,86 @@
+vaadin-tabs vaadin-tab[selected] {
+    color: #ff7201 !important; /
+}
+
+vaadin-tabs vaadin-tab[selected]::before,
+vaadin-tabs vaadin-tab[selected]::after {
+    background-color: #ff7201 !important;
+    border-color: #ff7201 !important;
+}
+
+vaadin-tabs vaadin-tab{
+    color: white;
+}
+
+.side-nav-item[selected](text) {
+    color: white !important;
+}
+
+.side-nav-item[selected] {
+    background-color: none !important;
+}
+
+
+:host( #shadow-root div a#link [part='link']){
+    color: white !important;
+}
+
+vaadin-side-nav-item.side-nav-item (text){
+    color: white !important;
+}
+
+[part='link'] {
+    flex: auto;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white !important;
+    font: inherit;
+}
+
+:host (text){
+    color: white !important;
+}
+
+:host([current]) [part='content']{
+    color: white !important;
+}
+
+:shadow-root (open) {
+    <style>
+          [part='link'] {
+              flex: auto;
+              min-width: 0;
+              display: flex;
+              align-items: center;
+              text-decoration: none;
+              color: white !important;
+              font: inherit;
+          }
+
+          vaadin-side-nav-item.side-nav-item (text){
+              color: white !important;
+          }
+
+          :host([current]) [part='content']{
+            color: white !important;
+          }
+        </style>
+
+}
+
+.side-nav-item[current]{
+    color: white !important;
+}
+
+.side-nav-item[slot="prefix"]{
+    color: white !important;
+}
+
+:host([current]) slot[name='prefix']::slotted(:is(vaadin-icon, [class*='icon'])){
+    color: white !important;
+}
+
+
+
