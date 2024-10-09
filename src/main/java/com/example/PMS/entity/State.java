@@ -13,17 +13,22 @@ import java.util.List;
 @Table(name = "state")
 public class State {
 
-    @NotBlank
+
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotBlank
+    @Column(unique = true)
+    private String stateId;
 
     @NotBlank
     private String name;
 
-    @OneToMany(mappedBy = "state", cascade = CascadeType.ALL )
+    @OneToMany(mappedBy = "state", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<City> cities;
 
-    @OneToMany(mappedBy = "state", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "state", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Phase> phases;
 
     @Override

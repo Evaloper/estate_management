@@ -21,7 +21,7 @@ import com.vaadin.flow.shared.Registration;
 public class StateForm extends FormLayout {
 
     TextField name = new TextField("Name of State");
-    TextField id = new TextField("ID");
+    TextField state_id = new TextField("ID");
     Button save = new Button("Save");
     Button delete = new Button("Delete");
     Button close = new Button("Cancel");
@@ -36,7 +36,7 @@ public class StateForm extends FormLayout {
         this.pmsService = pmsService;
         addClassName("state-form");
         binder.bindInstanceFields(this);
-        add(name, id, createButtonsLayout());
+        add(name, state_id, createButtonsLayout());
     }
 
     private Component createButtonsLayout() {
@@ -58,18 +58,20 @@ public class StateForm extends FormLayout {
     private void validateAndSave() {
         if (state == null) {
             Notification.show("State object is not set. Please try again.").addThemeVariants(NotificationVariant.LUMO_ERROR);
+            System.out.println("State: " + state.getName());
+            System.out.println("State ID: " + state.getStateId());
             return;
         }
 
         try {
             binder.writeBean(state);
 
-            if (state.getId() == null || state.getId().trim().isEmpty()) {
+            if (state.getStateId() == null || state.getStateId().trim().isEmpty()) {
                 Notification.show("ID must be manually set").addThemeVariants(NotificationVariant.LUMO_ERROR);
                 return;
             }
 
-            if (pmsService.stateExistsById(state.getId())) {
+            if (pmsService.stateExistsById(state.getStateId())) {
                 Notification.show("ID already exists").addThemeVariants(NotificationVariant.LUMO_ERROR);
                 return;
             }

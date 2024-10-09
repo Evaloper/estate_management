@@ -8,6 +8,8 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -55,9 +57,8 @@ public class StateView extends VerticalLayout {
     private void configureGrid() {
         stateGrid.addClassNames("state-grid");
         stateGrid.setSizeFull();
-        stateGrid.setColumns("name", "id");
+        stateGrid.setColumns("name", "stateId");
         stateGrid.getColumns().forEach(col -> col.setAutoWidth(true));
-
         stateGrid.asSingleSelect().addValueChangeListener(event -> editState(event.getValue()));
     }
 
@@ -91,7 +92,7 @@ public class StateView extends VerticalLayout {
     }
 
     private void openStateFormDialog() {
-        stateForm.setState(new State());
+        stateForm.setState(new State()); // Initializes a new State
         stateForm.setVisible(true);
         Dialog dialog = createStateFormDialog();
         dialog.open();
@@ -101,7 +102,7 @@ public class StateView extends VerticalLayout {
         if (state == null) {
             closeEditor();
         } else {
-            stateForm.setState(state);
+            stateForm.setState(state); // Set the existing state
             stateForm.setVisible(true);
             Dialog dialog = createStateFormDialog();
             dialog.open();

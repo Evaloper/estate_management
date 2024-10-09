@@ -70,10 +70,10 @@ public class MainLayout extends AppLayout {
         SideNav nav = new SideNav();
 
         Icon dashboardIcon = VaadinIcon.DASHBOARD.create();
-        dashboardIcon.getStyle().set("color", "white");
+//        dashboardIcon.getStyle().set("color", "white");
 
         Icon locationIcon = VaadinIcon.LOCATION_ARROW.create();
-        locationIcon.getStyle().set("color", "white");
+//        locationIcon.getStyle().set("color", "white");
         nav.getStyle().setPadding("20px");
 
 

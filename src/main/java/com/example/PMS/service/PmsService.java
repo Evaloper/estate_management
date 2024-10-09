@@ -61,7 +61,7 @@ public class PmsService {
 
     @Transactional
     public void saveState(State state) {
-        if (state == null || state.getId() == null || state.getId().trim().isEmpty()) {
+        if (state == null || state.getStateId() == null) {
             System.err.println("State or State ID is null. Ensure the form is connected and ID is assigned.");
             return;
         }
@@ -121,7 +121,7 @@ public class PmsService {
     }
 
     public boolean stateExistsById(String stateId) {
-        return stateRepository.existsById(stateId);
+        return stateRepository.existsByStateId(stateId);
     }
     public boolean stateExistsByName(String name) {
         return stateRepository.findByName(name).isPresent();
@@ -151,12 +151,12 @@ public class PmsService {
         return phaseRepository.findByCity(city);
     }
 
-    public List<City> findCitiesByState(String city) {
+    public List<City> findCitiesByState(Long city) {
         State state = findStateById(city);
         return cityRepository.findByState(state);
     }
 
-    private State findStateById(String stateId){
+    private State findStateById(Long stateId){
         Optional<State> stateOptional = stateRepository.findById(stateId);
         if (stateOptional.isPresent()) {
             return stateOptional.get();
