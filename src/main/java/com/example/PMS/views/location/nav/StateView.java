@@ -16,11 +16,10 @@ import com.vaadin.flow.dom.Style;
 
 public class StateView extends VerticalLayout {
 
-    Grid<State> stateGrid = new Grid<>(State.class);
-    TextField filterText = new TextField();
-    StateForm stateForm;
-    PmsService pmsService;
-
+    private final Grid<State> stateGrid = new Grid<>(State.class);
+    private final TextField filterText = new TextField();
+    private final StateForm stateForm;
+    private final PmsService pmsService;
 
     public StateView(PmsService pmsService) {
         this.pmsService = pmsService;
@@ -35,7 +34,6 @@ public class StateView extends VerticalLayout {
         add(getToolbar(), getContent());
         updateList();
         closeEditor();
-
     }
 
     private HorizontalLayout getContent() {
@@ -60,8 +58,7 @@ public class StateView extends VerticalLayout {
         stateGrid.setColumns("name", "id");
         stateGrid.getColumns().forEach(col -> col.setAutoWidth(true));
 
-        stateGrid.asSingleSelect().addValueChangeListener(event ->
-                editState(event.getValue()));
+        stateGrid.asSingleSelect().addValueChangeListener(event -> editState(event.getValue()));
     }
 
     private HorizontalLayout getToolbar() {
@@ -70,19 +67,14 @@ public class StateView extends VerticalLayout {
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
         filterText.addValueChangeListener(e -> updateList());
 
-
         Icon searchIcon = new Icon(VaadinIcon.SEARCH);
         searchIcon.addClickListener(click -> updateList());
         searchIcon.addClassName("search-button");
-
-        filterText.setWidth("300px");
-
         searchIcon.getStyle().setColor("grey");
         searchIcon.getStyle().setPosition(Style.Position.RELATIVE);
         searchIcon.getStyle().setRight("35px");
         searchIcon.getStyle().setTop("12px");
         searchIcon.setSize("18px");
-
 
         HorizontalLayout searchFieldWithButton = new HorizontalLayout(filterText, searchIcon);
         searchFieldWithButton.setSpacing(false);
@@ -98,20 +90,31 @@ public class StateView extends VerticalLayout {
         return toolbar;
     }
 
-
     private void openStateFormDialog() {
-        StateForm stateForm = new StateForm(pmsService);
-        stateForm.setWidth("25em");
+        stateForm.setState(new State());
+        stateForm.setVisible(true);
+        Dialog dialog = createStateFormDialog();
+        dialog.open();
+    }
+
+    public void editState(State state) {
+        if (state == null) {
+            closeEditor();
+        } else {
+            stateForm.setState(state);
+            stateForm.setVisible(true);
+            Dialog dialog = createStateFormDialog();
+            dialog.open();
+        }
+    }
+
+    private Dialog createStateFormDialog() {
         Dialog dialog = new Dialog();
         dialog.add(stateForm);
         dialog.setCloseOnOutsideClick(true);
-        dialog.open();
-
-
         stateForm.addListener(StateForm.SaveEvent.class, event -> {
             saveState(event);
             dialog.close();
-
         });
         stateForm.addListener(StateForm.DeleteEvent.class, e -> {
             deleteState(e);
@@ -122,58 +125,13 @@ public class StateView extends VerticalLayout {
             closeEditor();
             dialog.close();
         });
-
-
-    }
-
-
-    public void editState(State state) {
-        if (state == null) {
-            closeEditor();
-        } else {
-            StateForm stateForm1 = new StateForm(pmsService);
-
-            stateForm1.setState(state);
-            stateForm1.setVisible(true);
-            addClassName("editing");
-
-            Dialog dialog = new Dialog();
-            stateForm1.setWidth("25em");
-            dialog.add(stateForm1);
-            dialog.setCloseOnOutsideClick(true);
-            dialog.open();
-
-            stateForm1.addListener(StateForm.SaveEvent.class, event -> {
-                saveState(event);
-                dialog.close();
-            });
-            stateForm1.addListener(StateForm.DeleteEvent.class, e ->{
-                deleteState(e);
-                closeEditor();
-                dialog.close();
-            });
-            stateForm1.addListener(StateForm.CloseEvent.class, e -> {
-                closeEditor();
-                dialog.close();
-            });
-
-
-
-        }
+        return dialog;
     }
 
     private void closeEditor() {
         stateForm.setState(null);
         stateForm.setVisible(false);
         removeClassName("editing");
-    }
-
-    private void addState() {
-        stateGrid.asSingleSelect().clear();
-        State newState = new State();
-        stateForm.setState(newState);
-        stateForm.setVisible(true);
-        addClassName("editing");
     }
 
     private void updateList() {
@@ -190,7 +148,5 @@ public class StateView extends VerticalLayout {
         pmsService.deleteState(event.getState());
         updateList();
         closeEditor();
-
     }
-
 }

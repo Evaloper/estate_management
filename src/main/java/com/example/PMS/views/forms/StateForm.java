@@ -33,11 +33,10 @@ public class StateForm extends FormLayout {
     private PmsService pmsService;
 
     public StateForm(PmsService pmsService) {
-        this.pmsService =pmsService;
+        this.pmsService = pmsService;
         addClassName("state-form");
         binder.bindInstanceFields(this);
         add(name, id, createButtonsLayout());
-
     }
 
     private Component createButtonsLayout() {
@@ -49,7 +48,6 @@ public class StateForm extends FormLayout {
         close.addClickShortcut(Key.ESCAPE);
 
         save.addClickListener(event -> validateAndSave());
-
         delete.addClickListener(event -> fireEvent(new DeleteEvent(this, state)));
         close.addClickListener(event -> fireEvent(new CloseEvent(this)));
 
@@ -58,30 +56,29 @@ public class StateForm extends FormLayout {
     }
 
     private void validateAndSave() {
-
         if (state == null) {
-            System.out.println("State must be set before saving.");
-//            Notification.show("State must be set before saving").addThemeVariants(NotificationVariant.LUMO_ERROR);
-            state = new State();
+            Notification.show("State object is not set. Please try again.").addThemeVariants(NotificationVariant.LUMO_ERROR);
             return;
         }
 
         try {
             binder.writeBean(state);
+
             if (state.getId() == null || state.getId().trim().isEmpty()) {
-                System.out.println("ID must be manually set.");
-//                Notification.show("ID be manually set").addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("ID must be manually set").addThemeVariants(NotificationVariant.LUMO_ERROR);
                 return;
             }
 
-            if (pmsService.stateExistsById(state.getId())){
+            if (pmsService.stateExistsById(state.getId())) {
                 Notification.show("ID already exists").addThemeVariants(NotificationVariant.LUMO_ERROR);
                 return;
             }
-            if ( pmsService.stateExistsByName(state.getName())){
+
+            if (pmsService.stateExistsByName(state.getName())) {
                 Notification.show("State already exists").addThemeVariants(NotificationVariant.LUMO_ERROR);
                 return;
             }
+
             fireEvent(new SaveEvent(this, state));
         } catch (ValidationException e) {
             e.printStackTrace();
@@ -116,7 +113,6 @@ public class StateForm extends FormLayout {
         DeleteEvent(StateForm source, State state) {
             super(source, state);
         }
-
     }
 
     public static class CloseEvent extends StateFormEvent {
@@ -125,8 +121,7 @@ public class StateForm extends FormLayout {
         }
     }
 
-    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
-                                                                  ComponentEventListener<T> listener) {
+    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType, ComponentEventListener<T> listener) {
         return getEventBus().addListener(eventType, listener);
     }
 }

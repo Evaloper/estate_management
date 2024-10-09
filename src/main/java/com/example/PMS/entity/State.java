@@ -20,10 +20,10 @@ public class State {
     @NotBlank
     private String name;
 
-    @OneToMany(mappedBy = "state", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "state", cascade = CascadeType.ALL )
     private List<City> cities;
 
-    @OneToMany(mappedBy = "state", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "state", cascade = CascadeType.ALL)
     private List<Phase> phases;
 
     @Override
