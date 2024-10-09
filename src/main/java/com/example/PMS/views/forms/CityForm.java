@@ -25,7 +25,7 @@ import java.util.List;
 public class CityForm extends FormLayout {
     ComboBox<State> states = new ComboBox<>("State");
     TextField name = new TextField("City");
-    TextField id = new TextField("ID");
+    TextField city_id = new TextField("ID");
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");
@@ -48,7 +48,7 @@ public class CityForm extends FormLayout {
         binder.bindInstanceFields(this);
         binder.forField(states).asRequired("State is required").bind(City::getState, City::setState);
 
-        add(states, name, id, createButtonsLayout());
+        add(states, name, city_id, createButtonsLayout());
     }
 
     private Component createButtonsLayout() {
@@ -86,13 +86,13 @@ public class CityForm extends FormLayout {
             binder.writeBean(city);
             city.setState(selectedState);
 
-            if (city.getId() == null || city.getId().trim().isEmpty()) {
+            if (city.getCityId() == null || city.getCityId().trim().isEmpty()) {
                 System.out.println("ID must be manually assigned before saving.");
                 Notification.show("ID must be manually assigned before saving.").addThemeVariants(NotificationVariant.LUMO_ERROR);
                 return;
             }
 
-            if (pmsService.cityExistsById(city.getId())){
+            if (pmsService.cityExistsById(city.getCityId())){
                 Notification.show("ID already exists").addThemeVariants(NotificationVariant.LUMO_ERROR);
                 return;
             }

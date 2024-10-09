@@ -13,9 +13,14 @@ import java.util.List;
 @Table(name = "city")
 public class City {
 
-    @NotBlank
+
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotBlank
+    @Column(unique = true)
+    private String cityId;
 
     @NotBlank
     private String name;

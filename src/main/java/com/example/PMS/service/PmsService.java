@@ -88,8 +88,8 @@ public class PmsService {
         if (city == null || city.getName() == null || city.getState() == null) {
             throw new IllegalArgumentException("City or mandatory fields (name, state) are null.");
         }
-        if (city.getId() == null || city.getId().trim().isEmpty()) {
-            city.setId(generateUniqueId());
+        if (city.getCityId() == null || city.getCityId().trim().isEmpty()) {
+            city.setCityId(generateUniqueId());
         }
         cityRepository.save(city);
     }
@@ -127,8 +127,8 @@ public class PmsService {
         return stateRepository.findByName(name).isPresent();
     }
 
-    public boolean cityExistsById(String phaseId) {
-        return cityRepository.existsById(phaseId);
+    public boolean cityExistsById(String cityId) {
+        return cityRepository.existsByCityId(cityId);
     }
 
     public boolean cityExistsByName(String name) {

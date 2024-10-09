@@ -58,8 +58,6 @@ public class StateForm extends FormLayout {
     private void validateAndSave() {
         if (state == null) {
             Notification.show("State object is not set. Please try again.").addThemeVariants(NotificationVariant.LUMO_ERROR);
-            System.out.println("State: " + state.getName());
-            System.out.println("State ID: " + state.getStateId());
             return;
         }
 

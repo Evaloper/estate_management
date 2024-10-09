@@ -94,7 +94,7 @@ public class CityView extends VerticalLayout {
     private void configureGrid() {
         cityGrid.addClassNames("city-grid");
         cityGrid.setSizeFull();
-        cityGrid.setColumns("state", "name", "id");
+        cityGrid.setColumns("state", "name", "cityId");
 
         cityGrid.getColumns().forEach(col -> col.setAutoWidth(true));
 
