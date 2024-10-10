@@ -56,7 +56,7 @@ public class PhaseView extends VerticalLayout {
     private void configureGrid() {
         phaseGrid.addClassNames("city-grid");
         phaseGrid.setSizeFull();
-        phaseGrid.setColumns("state", "city", "name", "id");
+        phaseGrid.setColumns("state", "city", "name", "phaseId");
 
 
         phaseGrid.getColumns().forEach(col -> col.setAutoWidth(true));
@@ -67,7 +67,7 @@ public class PhaseView extends VerticalLayout {
 
     private HorizontalLayout getToolbar() {
         filterText.setPlaceholder("Search");
-        filterText.setClearButtonVisible(true);
+        filterText.setClearButtonVisible(false);
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
         filterText.addValueChangeListener(e -> updateList());
 
@@ -113,8 +113,8 @@ public class PhaseView extends VerticalLayout {
             }
         });
 
-        binder.forField(states).bind(phase -> phase.getState(), (phase, state) -> phase.setState(state));
-        binder.forField(cities).bind(phase -> phase.getCity(), (phase, city) -> phase.setCity(city));
+//        binder.forField(states).bind(phase -> phase.getState(), (phase, state) -> phase.setState(state));
+//        binder.forField(cities).bind(phase -> phase.getCity(), (phase, city) -> phase.setCity(city));
 
         Button resetButton = new Button("Reset Filter");
         resetButton.addClickListener(click -> {

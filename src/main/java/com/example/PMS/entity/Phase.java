@@ -12,9 +12,12 @@ import lombok.Setter;
 @Entity
 @Table(name = "phase")
 public class Phase {
-    @NotBlank
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @NotBlank
+    @Column(unique = true)
+    private String phaseId;
     private String name;
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)

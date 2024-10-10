@@ -28,7 +28,7 @@ public class PhaseForm extends FormLayout {
     ComboBox<State> states = new ComboBox<>("State");
     ComboBox<City> cities = new ComboBox<>("City");
     TextField name = new TextField("Phase");
-    TextField id = new TextField("ID");
+    TextField phaseId = new TextField("ID");
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");
@@ -66,7 +66,7 @@ public class PhaseForm extends FormLayout {
         binder.forField(states).asRequired("State is required").bind(Phase::getState, Phase::setState);
         binder.forField(cities).asRequired("City is required").bind(Phase::getCity, Phase::setCity);
 
-        add(states, cities, name, id, createButtonsLayout());
+        add(states, cities, name, phaseId, createButtonsLayout());
     }
 
 
@@ -113,13 +113,13 @@ public class PhaseForm extends FormLayout {
                 phase.setState(selectedState);
                 phase.setCity(selectedCity);
 
-                if (phase.getId() == null || phase.getId().trim().isEmpty()) {
+                if (phase.getPhaseId() == null || phase.getPhaseId().trim().isEmpty()) {
                     System.out.println("ID must be manually assigned before saving.");
                     Notification.show("ID must be manually assigned before saving.").addThemeVariants(NotificationVariant.LUMO_ERROR);
                     return;
                 }
 
-                if (pmsService.phaseExistsById(phase.getId())){
+                if (pmsService.phaseExistsById(phase.getPhaseId())){
                     Notification.show("ID already exists").addThemeVariants(NotificationVariant.LUMO_ERROR);
                     return;
                 }

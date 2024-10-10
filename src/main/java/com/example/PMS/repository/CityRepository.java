@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface CityRepository extends JpaRepository<City, Long> {
     @Query("select c from City c " +
             "where lower(c.name) like lower(concat('%', :searchTerm, '%')) " +
-            "or lower(c.cityId) like lower(concat('%', :searchTerm, '%'))")
+            "or lower(c.cityId) like lower(concat('%', :searchTerm, '%')) ")
     List<City> search(@Param("searchTerm") String searchTerm);
 
     Optional<City> findByName(String name);

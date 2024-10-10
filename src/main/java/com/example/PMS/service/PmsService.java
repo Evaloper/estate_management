@@ -61,12 +61,31 @@ public class PmsService {
 
     @Transactional
     public void saveState(State state) {
-        if (state == null || state.getStateId() == null) {
-            System.err.println("State or State ID is null. Ensure the form is connected and ID is assigned.");
-            return;
+        if (state == null) {
+            throw new IllegalArgumentException("State is null. Ensure the form is connected and State object is properly initialized.");
         }
-        stateRepository.save(state);
+
+        // If the state has an ID, we update the existing entity.
+        // If the state does not have an ID, it means we're creating a new one.
+        if (state.getId() != null) {
+            Optional<State> existingState = stateRepository.findById(state.getId());
+            if (existingState.isPresent()) {
+                // Update existing state entity
+                State stateToUpdate = existingState.get();
+                stateToUpdate.setName(state.getName());
+                stateToUpdate.setStateId(state.getStateId());
+                stateToUpdate.setCities(state.getCities());
+                stateToUpdate.setPhases(state.getPhases());
+                stateRepository.save(stateToUpdate);
+            } else {
+                throw new IllegalArgumentException("State with ID " + state.getId() + " does not exist in the database.");
+            }
+        } else {
+            // Create a new state entity
+            stateRepository.save(state);
+        }
     }
+
 
 
     private String generateUniqueId() {
@@ -135,7 +154,7 @@ public class PmsService {
         return cityRepository.findByName(name).isPresent();
     }
     public boolean phaseExistsById(String phaseId) {
-        return phaseRepository.existsById(phaseId);
+        return phaseRepository.existsByPhaseId(phaseId);
     }
 
 

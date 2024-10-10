@@ -15,7 +15,7 @@ vaadin-tabs vaadin-tab{
 
 vaadin-side-nav-item[current].side-nav-item::part(content){
     color: darkblue;
-    background-color:hsl(211.97deg 100% 82.44% / 80%);
+    background-color:hsl(212 86% 89% / 1.5);
 
 }
 

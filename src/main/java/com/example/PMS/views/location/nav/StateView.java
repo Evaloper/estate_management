@@ -102,10 +102,11 @@ public class StateView extends VerticalLayout {
         if (state == null) {
             closeEditor();
         } else {
-            stateForm.setState(state); // Set the existing state
+            stateForm.setState(state);
             stateForm.setVisible(true);
             Dialog dialog = createStateFormDialog();
             dialog.open();
+
         }
     }
 
@@ -144,6 +145,7 @@ public class StateView extends VerticalLayout {
         updateList();
         closeEditor();
     }
+
 
     private void deleteState(StateForm.DeleteEvent event) {
         pmsService.deleteState(event.getState());
